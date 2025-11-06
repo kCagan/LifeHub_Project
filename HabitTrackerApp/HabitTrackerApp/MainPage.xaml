@@ -1,0 +1,47 @@
+﻿<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="HabitTrackerApp.MainPage"
+    BackgroundColor="#F8FAF8"
+    Title="Habit Tracker">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label Text="Habit Tracker"
+               FontSize="28"
+               FontAttributes="Bold"
+               TextColor="#512BD4"
+               HorizontalOptions="Center" />
+
+        <!-- Yeni alışkanlık girişi -->
+        <Entry x:Name="habitEntry"
+               Placeholder="Enter a new habit"
+               FontSize="16"/>
+
+        <Button Text="Add Habit"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                CornerRadius="8"
+                Clicked="OnAddHabitClicked"/>
+
+        <!-- Liste -->
+        <CollectionView x:Name="habitList" ItemsSource="{Binding Habits}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Orientation="Horizontal" Padding="5">
+                        <CheckBox IsChecked="{Binding IsCompleted}" />
+                        <Label Text="{Binding Name}"
+                               FontSize="16"
+                               VerticalOptions="Center" />
+                        <Label Text="{Binding DateAdded, StringFormat='{0:HH:mm dd/MM}'}"
+                               FontSize="12"
+                               TextColor="#777"
+                               VerticalOptions="Center"
+                               HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>

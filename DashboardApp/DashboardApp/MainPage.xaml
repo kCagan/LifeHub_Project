@@ -1,0 +1,44 @@
+﻿<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="DashboardApp.MainPage"
+    BackgroundColor="#F6F7FB"
+    Title="LifeHub Dashboard">
+
+    <VerticalStackLayout Padding="30" Spacing="25">
+
+        <Label Text="LifeHub"
+               FontSize="34"
+               FontAttributes="Bold"
+               TextColor="#512BD4"
+               HorizontalOptions="Center" />
+
+        <Button Text="Habit Tracker"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                CornerRadius="8"
+                FontSize="18"
+                Clicked="OnHabitClicked"/>
+
+        <Button Text="Mood Journal"
+                BackgroundColor="#FFB300"
+                TextColor="White"
+                CornerRadius="8"
+                FontSize="18"
+                Clicked="OnMoodClicked"/>
+
+        <Button Text="Planner"
+                BackgroundColor="#03A9F4"
+                TextColor="White"
+                CornerRadius="8"
+                FontSize="18"
+                Clicked="OnPlannerClicked"/>
+
+        <Label x:Name="statusLabel"
+               Text=""
+               FontSize="16"
+               TextColor="#666"
+               HorizontalOptions="Center" />
+
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,36 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PlannerApp.MainPage"
+             Title="Planner App">
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <Label Text="Planer App"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+
+        <Entry x:Name="taskEntry" Placeholder="Enter a new task..." />
+
+        <DatePicker x:Name="taskDatePicker" />
+
+        <Button Text="Add Task"
+                BackgroundColor="#4CAF50"
+                TextColor="White"
+                Clicked="OnAddTaskClicked" />
+
+        <CollectionView x:Name="taskList">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="#ccc" Padding="10" Margin="5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Task}" FontAttributes="Bold" />
+                            <Label Text="{Binding Date}" FontSize="14" TextColor="Gray" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>
