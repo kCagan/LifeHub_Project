@@ -1,42 +1,60 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace PlannerApp
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<PlannerTask> Tasks { get; set; } = new();
+        public ObservableCollection<PlannerTask> Tasks { get; } = new();
+        public ICommand AddTaskCommand { get; }
+        public ICommand DeleteTaskCommand { get; }
+        public ICommand ClearTasksCommand { get; }
 
         public MainPage()
         {
+            BindingContext = this;
+            AddTaskCommand = new Command(AddTask);
+            DeleteTaskCommand = new Command<PlannerTask>(DeleteTask);
+            ClearTasksCommand = new Command(() => Tasks.Clear());
             InitializeComponent();
-            taskList.ItemsSource = Tasks;
+
+            datePicker.MinimumDate = DateTime.Today;
+            datePicker.MaximumDate = DateTime.Today.AddYears(1);
+            datePicker.Date = DateTime.Today;
         }
 
-        private void OnAddTaskClicked(object sender, EventArgs e)
+        private async void AddTask()
         {
-            string task = taskEntry.Text;
-            DateTime date = taskDatePicker.Date;
-
-            if (string.IsNullOrWhiteSpace(task))
+            var title = taskEntry.Text?.Trim();
+            if (string.IsNullOrEmpty(title))
             {
-                DisplayAlert("Warning", "Please enter a task.", "OK");
+                await DisplayAlert("Warning", "Enter a task.", "OK");
                 return;
             }
 
-            Tasks.Add(new PlannerTask
+            Tasks.Insert(0, new PlannerTask
             {
-                Task = task,
-                Date = date.ToString("D")
+                Title = title,
+                Date = datePicker.Date,
+                CreatedAt = DateTime.Now
             });
 
             taskEntry.Text = string.Empty;
+            if (Tasks.Count > 7)
+                Tasks.RemoveAt(Tasks.Count - 1);
+        }
+
+        private void DeleteTask(PlannerTask task)
+        {
+            if (task != null) Tasks.Remove(task);
         }
     }
 
     public class PlannerTask
     {
-        public string Task { get; set; }
-        public string Date { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public DateTime Date { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

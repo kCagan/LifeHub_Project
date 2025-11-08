@@ -1,24 +1,34 @@
-﻿namespace DashboardApp;
+﻿using System.Windows.Input;
+
+namespace DashboardApp;
 
 public partial class MainPage : ContentPage
 {
+    // 🔹 ICommand tanımı
+    public ICommand OpenHabitCommand { get; }
+
     public MainPage()
     {
         InitializeComponent();
+
+        // 🔹 XAML'deki Command buraya bağlanır
+        OpenHabitCommand = new Command(OpenHabit);
+        BindingContext = this; // olmazsa Command bağlanmaz
     }
 
-    private void OnHabitClicked(object sender, EventArgs e)
+    private void OpenHabit()
     {
-        statusLabel.Text = "Opening Habit Tracker...";
+        status.Text = "Opening Habit Tracker...";
+        // İleride Shell navigation buraya gelecek
     }
 
     private void OnMoodClicked(object sender, EventArgs e)
     {
-        statusLabel.Text = "Opening Mood Journal...";
+        status.Text = "Opening Mood Journal...";
     }
 
     private void OnPlannerClicked(object sender, EventArgs e)
     {
-        statusLabel.Text = "Opening Planner...";
+        status.Text = "Opening Planner...";
     }
 }

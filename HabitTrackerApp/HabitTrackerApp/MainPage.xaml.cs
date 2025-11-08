@@ -1,32 +1,52 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace HabitTrackerApp;
 
 public partial class MainPage : ContentPage
 {
-    public ObservableCollection<Habit> Habits { get; set; } = new();
+    public ObservableCollection<HabitModel> Habits { get; set; } = new();
+
+    // 🔹 ICommand tanımları
+    public ICommand AddHabitCommand { get; }
+    public ICommand ClearHabitsCommand { get; }
 
     public MainPage()
     {
         InitializeComponent();
+
+        // Command’ları bağla
+        AddHabitCommand = new Command(AddHabit);
+        ClearHabitsCommand = new Command(ClearAll);
+
+        // XAML'den BindingContext = this
         BindingContext = this;
+
+        habitList.ItemsSource = Habits;
     }
 
-    private void OnAddHabitClicked(object sender, EventArgs e)
+    private void AddHabit()
     {
-        if (!string.IsNullOrWhiteSpace(habitEntry.Text))
+        if (string.IsNullOrWhiteSpace(habitEntry.Text))
+            return;
+
+        Habits.Insert(0, new HabitModel
         {
-            Habits.Insert(0, new Habit
-            {
-                Name = habitEntry.Text,
-                DateAdded = DateTime.Now,
-                IsCompleted = false
-            });
+            Name = habitEntry.Text,
+            DateAdded = DateTime.Now,
+            IsCompleted = false
+        });
 
-            if (Habits.Count > 7)
-                Habits.RemoveAt(Habits.Count - 1);
+        habitEntry.Text = string.Empty;
 
-            habitEntry.Text = string.Empty;
-        }
+        // En fazla 7 kayıt tut
+        if (Habits.Count > 7)
+            Habits.RemoveAt(Habits.Count - 1);
+    }
+
+    private void ClearAll()
+    {
+        if (Habits.Count > 0)
+            Habits.Clear();
     }
 }

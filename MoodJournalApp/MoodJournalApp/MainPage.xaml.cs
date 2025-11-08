@@ -1,38 +1,49 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace MoodJournalApp
 {
     public partial class MainPage : ContentPage
     {
-        public ObservableCollection<MoodEntry> Entries { get; set; } = new();
+        public ObservableCollection<MoodEntry> Entries { get; } = new();
+        public ObservableCollection<string> MoodOptions { get; } =
+            new() { "😊 Happy", "😐 Neutral", "😞 Sad", "😡 Angry" };
+
+        public ICommand AddEntryCommand { get; }
+        public ICommand ClearEntriesCommand { get; }
 
         public MainPage()
         {
+            BindingContext = this;
+            AddEntryCommand = new Command(AddEntry);
+            ClearEntriesCommand = new Command(() => Entries.Clear());
             InitializeComponent();
-            entriesList.ItemsSource = Entries;
         }
 
-        private void OnAddEntryClicked(object sender, EventArgs e)
+        private async void AddEntry()
         {
-            string mood = moodEntry.Text;
-            string note = noteEntry.Text;
-
+            var mood = moodPicker.SelectedItem as string;
             if (string.IsNullOrWhiteSpace(mood))
             {
-                DisplayAlert("Warning", "Please enter your mood first.", "OK");
+                await DisplayAlert("Warning", "Select a mood.", "OK");
                 return;
             }
 
-            Entries.Add(new MoodEntry
+            var note = string.IsNullOrWhiteSpace(noteEntry.Text)
+                ? "No note"
+                : noteEntry.Text;
+
+            Entries.Insert(0, new MoodEntry
             {
                 Mood = mood,
-                Note = string.IsNullOrWhiteSpace(note) ? "No note provided." : note,
+                Note = note,
                 Date = DateTime.Now.ToString("g")
             });
 
-            moodEntry.Text = string.Empty;
+            moodPicker.SelectedItem = null;
             noteEntry.Text = string.Empty;
+            if (Entries.Count > 7)
+                Entries.RemoveAt(Entries.Count - 1);
         }
     }
 

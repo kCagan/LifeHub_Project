@@ -1,36 +1,37 @@
-﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PlannerApp.MainPage"
-             Title="Planner App">
+﻿<ContentPage
+    x:Class="PlannerApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="Page"
+    Title="Daily Planner">
 
-    <VerticalStackLayout Padding="20" Spacing="10">
+    <VerticalStackLayout Padding="20">
+        <Label Text="Planner" FontSize="24" FontAttributes="Bold" />
 
-        <Label Text="Planer App"
-               FontSize="28"
-               FontAttributes="Bold"
-               HorizontalOptions="Center" />
+        <Entry x:Name="taskEntry" Placeholder="Enter task" />
+        <DatePicker x:Name="datePicker" />
 
-        <Entry x:Name="taskEntry" Placeholder="Enter a new task..." />
+        <HorizontalStackLayout>
+            <Button Text="Add" Command="{Binding AddTaskCommand}" />
+            <Button Text="Clear" Command="{Binding ClearTasksCommand}" />
+        </HorizontalStackLayout>
 
-        <DatePicker x:Name="taskDatePicker" />
-
-        <Button Text="Add Task"
-                BackgroundColor="#4CAF50"
-                TextColor="White"
-                Clicked="OnAddTaskClicked" />
-
-        <CollectionView x:Name="taskList">
+        <CollectionView ItemsSource="{Binding Tasks}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame BorderColor="#ccc" Padding="10" Margin="5">
+                    <HorizontalStackLayout>
+                        <CheckBox IsChecked="{Binding IsCompleted}" />
                         <VerticalStackLayout>
-                            <Label Text="{Binding Task}" FontAttributes="Bold" />
-                            <Label Text="{Binding Date}" FontSize="14" TextColor="Gray" />
+                            <Label Text="{Binding Title}" />
+                            <Label Text="{Binding CreatedAt, StringFormat='Created: {0:dd.MM HH:mm}'}" FontSize="10" />
+                            <Label Text="{Binding Date, StringFormat='Due: {0:dd.MM.yy}'}" FontSize="10" />
                         </VerticalStackLayout>
-                    </Frame>
+                        <Button Text="X"
+                                Command="{Binding Source={x:Reference Page}, Path=BindingContext.DeleteTaskCommand}"
+                                CommandParameter="{Binding .}" />
+                    </HorizontalStackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </VerticalStackLayout>
 </ContentPage>

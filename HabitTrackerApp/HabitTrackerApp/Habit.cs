@@ -1,6 +1,6 @@
 namespace HabitTrackerApp;
 
-public class Habit
+public class HabitModel
 {
     public string? Name { get; set; }
     public DateTime DateAdded { get; set; }

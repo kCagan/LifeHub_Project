@@ -6,9 +6,8 @@
     xmlns:local="clr-namespace:DashboardApp"
     Title="DashboardApp">
 
+    <!-- Ana sayfa -->
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Title="Dashboard"
+        ContentTemplate="{DataTemplate local:MainPage}" />
 </Shell>
