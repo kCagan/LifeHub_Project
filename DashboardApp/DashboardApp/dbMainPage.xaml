@@ -1,0 +1,57 @@
+﻿<ContentPage
+    x:Class="DashboardApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="LifeHub Dashboard"
+    BackgroundColor="#F5F5F7">
+    
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Frame BackgroundColor="#6200EA" CornerRadius="18" Padding="20" HasShadow="True">
+            <Label Text="Welcome to LifeHub" FontSize="26" FontAttributes="Bold" 
+                   TextColor="White" HorizontalOptions="Center"/>
+        </Frame>
+
+        <VerticalStackLayout Spacing="12" VerticalOptions="FillAndExpand">
+            
+            <Frame BackgroundColor="#E8F5E9" CornerRadius="12" Padding="25" HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding OpenHabitCommand}"/>
+                </Frame.GestureRecognizers>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="8">
+                    <Label Text="🎯" FontSize="44" HorizontalOptions="Center"/>
+                    <Label Text="Habits" FontSize="18" FontAttributes="Bold" 
+                           HorizontalOptions="Center" TextColor="#00C853"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame BackgroundColor="#FFFDE7" CornerRadius="12" Padding="25" HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnMoodClicked"/>
+                </Frame.GestureRecognizers>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="8">
+                    <Label Text="😊" FontSize="44" HorizontalOptions="Center"/>
+                    <Label Text="Mood" FontSize="18" FontAttributes="Bold" 
+                           HorizontalOptions="Center" TextColor="#FFC107"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <Frame BackgroundColor="#E3F2FD" CornerRadius="12" Padding="25" HasShadow="True">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnPlannerClicked"/>
+                </Frame.GestureRecognizers>
+                <VerticalStackLayout VerticalOptions="Center" Spacing="8">
+                    <Label Text="📅" FontSize="44" HorizontalOptions="Center"/>
+                    <Label Text="Planner" FontSize="18" FontAttributes="Bold" 
+                           HorizontalOptions="Center" TextColor="#3F51B5"/>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+
+        <Frame BackgroundColor="#2196F3" CornerRadius="12" Padding="15,10" HasShadow="True"
+               VerticalOptions="EndAndExpand" Margin="0,10,0,0">
+            <Label x:Name="status" Text="Select an app to begin" FontSize="14" 
+                   TextColor="White" HorizontalOptions="Center"/>
+        </Frame>
+        
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,85 @@
+﻿<ContentPage
+    x:Class="MoodJournalApp.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Mood Journal"
+    BackgroundColor="#FFF8E1">
+    
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Aesthetic-Usability: Warm header -->
+            <Frame BackgroundColor="#FFC107" CornerRadius="18" Padding="20" HasShadow="True">
+                <VerticalStackLayout>
+                    <Label Text="How are you feeling?" FontSize="24" FontAttributes="Bold" 
+                           TextColor="White" HorizontalOptions="Center"/>
+                    <Label Text="Track your daily mood" FontSize="12" TextColor="#FFF8E1" 
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+            
+            <!-- Hick's Law & Tesler's Law: Simple mood picker -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="8" HasShadow="False">
+                <Picker x:Name="moodPicker" Title="Select your mood" 
+                        ItemsSource="{Binding MoodOptions}" FontSize="16"
+                        TitleColor="#9E9E9E" TextColor="#424242"/>
+            </Frame>
+            
+            <!-- Postel's Law: Optional note entry -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="8" HasShadow="False">
+                <Editor x:Name="noteEntry" Placeholder="Add a note (optional)..." 
+                        HeightRequest="80" FontSize="14" PlaceholderColor="#BDBDBD"
+                        BackgroundColor="Transparent"/>
+            </Frame>
+            
+            <!-- Fitts's Law: Large action buttons with Commands -->
+            <Grid ColumnDefinitions="2*,*" ColumnSpacing="10">
+                <Button Grid.Column="0" Text="💾 Save" Command="{Binding AddEntryCommand}" 
+                        BackgroundColor="#4CAF50" TextColor="White" CornerRadius="10" 
+                        HeightRequest="44" FontSize="16" FontAttributes="Bold"/>
+                <Button Grid.Column="1" Text="Clear" Command="{Binding ClearEntriesCommand}" 
+                        BackgroundColor="#757575" TextColor="White" CornerRadius="10" 
+                        HeightRequest="44" FontSize="14"/>
+            </Grid>
+            
+            <!-- Miller's Law: Section label -->
+            <Label Text="Recent Entries (Last 7)" FontSize="16" FontAttributes="Bold" 
+                   TextColor="#5D4037" Margin="0,5,0,0"/>
+            
+            <!-- Jakob's Law & Gestalt: Familiar list layout -->
+            <CollectionView ItemsSource="{Binding Entries}" HeightRequest="280">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="0,4" BackgroundColor="White" CornerRadius="12" 
+                               Padding="12" HasShadow="True">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                                <!-- Von Restorff: Mood text stands out -->
+                                <Label Grid.Column="0" Text="{Binding Mood}" 
+                                       FontSize="14" VerticalOptions="Center" FontAttributes="Bold"/>
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="{Binding Note}" FontSize="14" TextColor="#424242" 
+                                           LineBreakMode="WordWrap" MaxLines="2"/>
+                                    <!-- Doherty Threshold: Quick date display -->
+                                    <Label Text="{Binding Date}" FontSize="11" TextColor="#9E9E9E"/>
+                                </VerticalStackLayout>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <!-- Postel's Law: Empty state handling -->
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout Padding="20" Spacing="8">
+                        <Label Text="📝" FontSize="36" HorizontalOptions="Center" Opacity="0.5"/>
+                        <Label Text="No entries yet" FontSize="14" HorizontalOptions="Center" 
+                               TextColor="#9E9E9E"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+            
+            <!-- Aesthetic element -->
+            <Frame BackgroundColor="#FFF3E0" CornerRadius="8" Padding="10" HasShadow="False">
+                <Label Text="💡 Track your mood daily for better insights" 
+                       FontSize="12" TextColor="#F57C00" HorizontalOptions="Center"/>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
