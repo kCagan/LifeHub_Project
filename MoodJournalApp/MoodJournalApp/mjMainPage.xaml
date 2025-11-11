@@ -18,17 +18,19 @@
             </Frame>
             
             <!-- Hick's Law & Tesler's Law: Simple mood picker -->
-            <Frame BackgroundColor="White" CornerRadius="10" Padding="8" HasShadow="False">
+            <Frame BackgroundColor="#EEEEEE" CornerRadius="10" Padding="8" HasShadow="False" 
+                   BorderColor="#BDBDBD">
                 <Picker x:Name="moodPicker" Title="Select your mood" 
                         ItemsSource="{Binding MoodOptions}" FontSize="16"
-                        TitleColor="#9E9E9E" TextColor="#424242"/>
+                        TitleColor="#757575" TextColor="#212121"
+                        BackgroundColor="#EEEEEE"/>
             </Frame>
             
             <!-- Postel's Law: Optional note entry -->
             <Frame BackgroundColor="White" CornerRadius="10" Padding="8" HasShadow="False">
                 <Editor x:Name="noteEntry" Placeholder="Add a note (optional)..." 
                         HeightRequest="80" FontSize="14" PlaceholderColor="#BDBDBD"
-                        BackgroundColor="Transparent"/>
+                        TextColor="#212121" BackgroundColor="Transparent"/>
             </Frame>
             
             <!-- Fitts's Law: Large action buttons with Commands -->
@@ -37,12 +39,12 @@
                         BackgroundColor="#4CAF50" TextColor="White" CornerRadius="10" 
                         HeightRequest="44" FontSize="16" FontAttributes="Bold"/>
                 <Button Grid.Column="1" Text="Clear" Command="{Binding ClearEntriesCommand}" 
-                        BackgroundColor="#757575" TextColor="White" CornerRadius="10" 
+                        BackgroundColor="#DE0A26" TextColor="White" CornerRadius="10" 
                         HeightRequest="44" FontSize="14"/>
             </Grid>
             
             <!-- Miller's Law: Section label -->
-            <Label Text="Recent Entries (Last 7)" FontSize="16" FontAttributes="Bold" 
+            <Label Text="Recent Entries" FontSize="16" FontAttributes="Bold" 
                    TextColor="#5D4037" Margin="0,5,0,0"/>
             
             <!-- Jakob's Law & Gestalt: Familiar list layout -->
@@ -51,7 +53,7 @@
                     <DataTemplate>
                         <Frame Margin="0,4" BackgroundColor="White" CornerRadius="12" 
                                Padding="12" HasShadow="True">
-                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
                                 <!-- Von Restorff: Mood text stands out -->
                                 <Label Grid.Column="0" Text="{Binding Mood}" 
                                        FontSize="14" VerticalOptions="Center" FontAttributes="Bold"/>
@@ -61,6 +63,13 @@
                                     <!-- Doherty Threshold: Quick date display -->
                                     <Label Text="{Binding Date}" FontSize="11" TextColor="#9E9E9E"/>
                                 </VerticalStackLayout>
+                                <!-- Delete button for individual entry -->
+                                <Button Grid.Column="2" Text="✕" 
+                                        BackgroundColor="#DE0A26" TextColor="White"
+                                        CornerRadius="15" WidthRequest="30" HeightRequest="30"
+                                        FontSize="16" Padding="0" VerticalOptions="Center"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteEntryCommand}"
+                                        CommandParameter="{Binding .}"/>
                             </Grid>
                         </Frame>
                     </DataTemplate>

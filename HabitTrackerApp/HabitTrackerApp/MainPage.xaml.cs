@@ -10,14 +10,16 @@ public partial class MainPage : ContentPage
     // 🔹 ICommand tanımları
     public ICommand AddHabitCommand { get; }
     public ICommand ClearHabitsCommand { get; }
+    public ICommand DeleteHabitCommand { get; }
 
     public MainPage()
     {
         InitializeComponent();
 
-        // Command’ları bağla
+        // Command'ları bağla
         AddHabitCommand = new Command(AddHabit);
         ClearHabitsCommand = new Command(ClearAll);
+        DeleteHabitCommand = new Command<HabitModel>(DeleteHabit);
 
         // XAML'den BindingContext = this
         BindingContext = this;
@@ -48,5 +50,13 @@ public partial class MainPage : ContentPage
     {
         if (Habits.Count > 0)
             Habits.Clear();
+    }
+
+    private void DeleteHabit(HabitModel habit)
+    {
+        if (habit != null && Habits.Contains(habit))
+        {
+            Habits.Remove(habit);
+        }
     }
 }

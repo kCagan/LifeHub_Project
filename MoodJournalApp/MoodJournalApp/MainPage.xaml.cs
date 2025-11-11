@@ -11,12 +11,14 @@ namespace MoodJournalApp
 
         public ICommand AddEntryCommand { get; }
         public ICommand ClearEntriesCommand { get; }
+        public ICommand DeleteEntryCommand { get; }
 
         public MainPage()
         {
             BindingContext = this;
             AddEntryCommand = new Command(AddEntry);
             ClearEntriesCommand = new Command(() => Entries.Clear());
+            DeleteEntryCommand = new Command<MoodEntry>(DeleteEntry);
             InitializeComponent();
         }
 
@@ -44,6 +46,14 @@ namespace MoodJournalApp
             noteEntry.Text = string.Empty;
             if (Entries.Count > 7)
                 Entries.RemoveAt(Entries.Count - 1);
+        }
+
+        private void DeleteEntry(MoodEntry entry)
+        {
+            if (entry != null && Entries.Contains(entry))
+            {
+                Entries.Remove(entry);
+            }
         }
     }
 
